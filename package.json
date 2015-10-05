@@ -1,0 +1,28 @@
+{
+  "name": "callback-server",
+  "version": "1.0.0",
+  "description": "An extremely simple callback server",
+  "main": "index.js",
+  "scripts": {
+    "start": "./node_modules/.bin/forever start index.js",
+    "stop": "./node_modules/.bin/forever stop index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/SpoonX/callback-server.git"
+  },
+  "keywords": [
+    "callback",
+    "server",
+    "log"
+  ],
+  "author": "RWOverdijk <wesley@spoonx.nl>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SpoonX/callback-server/issues"
+  },
+  "homepage": "https://github.com/SpoonX/callback-server#readme",
+  "dependencies": {
+    "forever": "^0.15.1"
+  }
+}
