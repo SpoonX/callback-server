@@ -1,30 +1,22 @@
 var http        = require('http'),
     querystring = require('querystring'),
+    subtext     = require('subtext'),
     fs          = require('fs'),
     logFile     = process.env.LOG_FILE || __dirname + '/callbacks.log',
     port        = process.env.PORT || 9615;
 
 http.createServer(function (req, res) {
-  var body = '';
+  subtext.parse(req, null, {parse: true, output: 'data'}, function (err, parsed) {
+    var body = parsed.payload;
 
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-
-  req.on('data', function (chunk) {
-    body += chunk;
-  });
-
-  req.on('end', function () {
+    res.writeHead(200, {'Content-Type': 'text/plain'});
     res.end();
-
-    if (req.headers['content-type']) {
-      body = formatObject(parseBody(body, req.headers['content-type']));
-    }
 
     var logData = [
       '> Log time: ' + logTime() + '',
       '[Request]: ' + req.url,
       '[Headers]:', formatObject(req.headers),
-      '[Body]:', body,
+      '[Body]:', formatObject(body),
       '---------------------------\n'
     ];
 
@@ -41,10 +33,10 @@ console.log('Now logging on http://127.0.0.1:' + port)
 // Functions
 function logTime () {
   var currentDate = new Date();
-    
-  return dformat       = [
+
+  return [
     currentDate.getFullYear(),
-    ensureDoubleDigit((currentDate.getMonth()+1)),
+    ensureDoubleDigit((currentDate.getMonth() + 1)),
     ensureDoubleDigit(currentDate.getDate())
   ].join('-') + ' ' + [
     ensureDoubleDigit(currentDate.getHours()),
@@ -92,47 +84,4 @@ function formatObject (object, prefix) {
   });
 
   return formatted.join('\n');
-}
-
-function parseBody (body, contentType) {
-  var contentTypeParts = contentType.split(';'),
-      parsedBody       = {},
-      boundaryMatches;
-
-  if (contentTypeParts[0] !== 'multipart/form-data' || !contentTypeParts[1]) {
-    return body;
-  }
-
-  boundaryMatches = contentTypeParts[1].match(/\bboundary\b=(\-{4}\b\w+\b)/);
-
-  if (!boundaryMatches || !boundaryMatches[1] || !typeof boundaryMatches === 'string') {
-    return body;
-  }
-
-  body.split(boundaryMatches[1]).forEach(function (bodyPart) {
-    var bodyMatch = bodyPart.replace(/\s/g, '').match(/name="(.*?)"(.*?)--/),
-        key,
-        value;
-
-    if (!bodyMatch) {
-      return;
-    }
-
-    key   = bodyMatch[1];
-    value = bodyMatch[2];
-
-    if (key.match(/\[\]$/)) {
-      key = key.replace(/\[\]$/, '');
-
-      if (typeof parsedBody[key] === 'undefined') {
-        parsedBody[key] = [];
-      }
-
-      return parsedBody[key].push(value);
-    }
-
-    parsedBody[key] = value;
-  });
-
-  return parsedBody;
 }
