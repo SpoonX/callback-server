@@ -31,7 +31,7 @@ http.createServer(function (req, res) {
 console.log('Now logging on http://127.0.0.1:' + port)
 
 // Functions
-function logTime() {
+function logTime () {
   var currentDate = new Date();
 
   return [
@@ -45,7 +45,7 @@ function logTime() {
   ].join(':');
 }
 
-function ensureDoubleDigit(number) {
+function ensureDoubleDigit (number) {
   if (number < 10) {
     number = '0' + number;
   }
@@ -53,7 +53,7 @@ function ensureDoubleDigit(number) {
   return number;
 }
 
-function formatObject(object, prefix) {
+function formatObject (object, prefix) {
   if (!object) {
     return 'None';
   }
