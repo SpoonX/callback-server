@@ -8,13 +8,13 @@ An extremely server which does nothing more than logging all requests to file an
 
 To, for example, change the `LOG_FILE`, start the server as follows:
 
-`LOG_FILE=/custom/log/file.log npm start`
+`LOG_FILE=/custom/log/file.log npm start`.
 
 ## Environment variables
 You can configure some things using environment variables.
 
 ### LOG_FILE
-Path to the file to append log data to. Defaults to `./callbacks.log`/
+Path to the file to append log data to. Defaults to `./callbacks.log`.
 
 ### PORT
 The port to run on. Defaults to `9615`.
