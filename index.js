@@ -14,6 +14,7 @@ http.createServer(function (req, res) {
 
     var logData = [
       '> Log time: ' + logTime() + '',
+      '[Method]: ' + req.method,
       '[Request]: ' + req.url,
       '[Headers]:', formatObject(req.headers),
       '[Body]:', formatObject(body),
