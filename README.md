@@ -1,5 +1,5 @@
 # Callback server
-An extremely server which does nothing more than logging all requests to file and responding with 200.
+An extremely simple server which does nothing more than logging all requests to file and responding with 200.
 
 ## Getting started
 1. Simply clone this repository or download a release.
